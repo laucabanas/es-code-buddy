@@ -321,7 +321,8 @@ export const MessageBranchPage = ({
 
 export type MessageResponseProps = ComponentProps<typeof Streamdown>;
 
-const streamdownPlugins = { cjk, code, math, mermaid };
+// mermaid/math parsing on every streamed chunk is expensive and unused here.
+const streamdownPlugins = { cjk, code };
 
 export const MessageResponse = memo(
   ({ className, ...props }: MessageResponseProps) => (
