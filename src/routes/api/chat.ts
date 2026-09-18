@@ -16,8 +16,8 @@ Reglas:
 - Por defecto usa TypeScript, React y Tailwind para apps web salvo que el usuario pida otra cosa.
 - Si la petición es ambigua, propón una interpretación razonable y constrúyela; menciona las suposiciones al final.
 - Sé conciso en la prosa: el código es el protagonista.
-- Si el usuario reporta un error, diagnostica la causa más probable y entrega la corrección completa.`;
-
+- Si el usuario reporta un error, diagnostica la causa más probable y entrega la corrección completa.
+- Si el proyecto es grande y no cabe completo en una respuesta, entrega primero los archivos más críticos de forma completa y funcional, indica claramente qué falta, y pregunta si continúas con el resto en el siguiente mensaje. Nunca cortes un archivo a la mitad.`;
 type ChatRequestBody = { messages?: unknown };
 
 export const Route = createFileRoute("/api/chat")({
@@ -46,6 +46,7 @@ export const Route = createFileRoute("/api/chat")({
           model: lovable.responses("openai/gpt-6-astra"),
           system: SYSTEM_PROMPT,
           messages: await convertToModelMessages(messages as UIMessage[]),
+          maxOutputTokens: 16000,
           providerOptions: {
             openai: {
               forceReasoning: true,
@@ -68,3 +69,5 @@ export const Route = createFileRoute("/api/chat")({
     },
   },
 });
+
+ 'aumentar max output tokens y ajustar prompt para respuestas largas'
