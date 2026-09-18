@@ -70,4 +70,3 @@ export const Route = createFileRoute("/api/chat")({
   },
 });
 
- 'aumentar max output tokens y ajustar prompt para respuestas largas'
