@@ -69,4 +69,3 @@ export const Route = createFileRoute("/api/chat")({
     },
   },
 });
-
