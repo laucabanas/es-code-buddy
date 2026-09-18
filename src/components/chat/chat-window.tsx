@@ -43,6 +43,9 @@ export function ChatWindow({ threadId, initialMessages }: ChatWindowProps) {
     id: threadId,
     messages: initialMessages,
     transport,
+    // Long code answers stream hundreds of tokens per second; re-rendering and
+    // re-highlighting the whole markdown on each one locks up the browser.
+    throttle: 100,
   });
 
   const isLoading = status === "submitted" || status === "streaming";
