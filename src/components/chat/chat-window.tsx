@@ -139,8 +139,7 @@ export function ChatWindow({ threadId, initialMessages }: ChatWindowProps) {
           )}
           {error && (
             <div className="rounded-xl border border-destructive/40 bg-destructive/10 px-4 py-3 text-sm text-destructive-foreground">
-              No pude completar la respuesta. Inténtalo de nuevo; si el problema
-              persiste, puede que se hayan agotado los créditos de IA del proyecto.
+              {error.message || "No pude completar la respuesta. Inténtalo de nuevo."}
             </div>
           )}
         </ConversationContent>
