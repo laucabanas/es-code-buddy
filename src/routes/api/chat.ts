@@ -20,6 +20,22 @@ Reglas:
 - Si el proyecto es grande y no cabe completo en una respuesta, entrega primero los archivos más críticos de forma completa y funcional, indica claramente qué falta, y pregunta si continúas con el resto en el siguiente mensaje. Nunca cortes un archivo a la mitad.`;
 type ChatRequestBody = { messages?: unknown };
 
+function getChatErrorMessage(error: unknown) {
+  const statusCode =
+    typeof error === "object" && error !== null && "statusCode" in error
+      ? (error as { statusCode?: unknown }).statusCode
+      : undefined;
+
+  if (statusCode === 402) {
+    return "Los créditos de IA del proyecto están agotados. Añade créditos para seguir usando Forja.";
+  }
+  if (statusCode === 429) {
+    return "Hay demasiadas solicitudes ahora mismo. Espera un momento y vuelve a intentarlo.";
+  }
+
+  return "No pude completar la respuesta. Inténtalo de nuevo.";
+}
+
 export const Route = createFileRoute("/api/chat")({
   server: {
     handlers: {
@@ -61,6 +77,7 @@ export const Route = createFileRoute("/api/chat")({
         const response = result.toUIMessageStreamResponse({
           originalMessages: messages as UIMessage[],
           sendReasoning: true,
+          onError: getChatErrorMessage,
         });
         const runId = runIdFetch.getRunId();
         if (runId) response.headers.set("X-Lovable-AIG-Run-ID", runId);
